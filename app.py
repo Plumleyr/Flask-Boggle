@@ -19,7 +19,7 @@ def get_start_game_form():
         return redirect(url_for('show_board'))
     return render_template('start_game.html')
 
-@app.route('/boggle', methods = ['GET', 'POST'])
+@app.route('/boggle', methods = ['POST'])
 def show_board():
     if request.is_json:
         data = request.json
