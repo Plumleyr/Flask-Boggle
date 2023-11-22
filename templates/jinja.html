@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Boggle {% endblock %}
+{% block content %}
+<form id="boggle_board" method="post">
+    <table>
+        {% set letter_counts = {} %}
+        {% for row in session['board'] %}
+        <tr name="{{ row }}">
+            {% for letter in row %}
+            {% set count = letter_counts.get(letter, 1) %}
+            {% if count > 0 %}
+            {% set name = letter ~ count %}
+            {% else %}
+            {% set name = letter %}
+            {% endif %}
+            <td name="{{ name }}">{{ letter }}</td>
+            {% set update = letter_counts.update({letter: count + 1}) %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="text" id="word_input" placeholder="Enter Word">
+    <button id="Submit_word">Submit</button>
+</form>
+{% endblock %}
