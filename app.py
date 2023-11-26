@@ -10,21 +10,23 @@ app.config['SECRET_KEY'] = 'BOGGLEz'
 
 toolbar = DebugToolbarExtension(app)
 
+boggle_game = Boggle()
+
 @app.route('/')
 def get_start_game_form():
-    if request.method == 'POST':
-        boggle_game = Boggle()
-        new_board = boggle_game.make_board()
-        session['board'] = new_board
-        return redirect(url_for('show_board'))
     return render_template('start_game.html')
 
-@app.route('/boggle', methods = ['POST'])
+@app.route('/boggle', methods = ['POST', 'GET'])
 def show_board():
-    if request.is_json:
-        data = request.json
-        word = data.get('word')
-        print(word)
-        
-    return render_template('jinja.html')
+    if request.method == 'GET':
+        new_board = boggle_game.make_board()
+        session['board'] = new_board
+        return render_template('jinja.html')
+
+@app.route('/check_word', methods = ['GET', 'POST'])
+def find_word():
+    print(request.json)
+    word = request.json.get('word')
+    result = boggle_game.check_valid_word(session['board'], word)
+    return jsonify({'response': result})
 

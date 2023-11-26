@@ -1,19 +1,10 @@
 $(document).ready(function(){
-    $('#boggle_board').submit(function(evt){
+    $form = $('#boggle_board');
+    $form.submit(async function(evt){
         evt.preventDefault();
         let wordValue = $('#word_input').val();
-
-        $.ajax({
-            url:'/boggle',
-            method:'post',
-            contentType:'application/json',
-            data:{
-                word: wordValue
-            }
-        });
+        const res = await axios.post('/check_word', { word: wordValue });
+        console.log(res);
+        wordValue = '';
     });
-
-    $('tr').on('click', function(){
-        let closestTd = $(this).closest('td');
-    });
-})
+});
