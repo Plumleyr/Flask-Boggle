@@ -14,7 +14,7 @@ class Boggle():
         """Read and return all words in dictionary."""
 
         dict_file = open(dict_path)
-        words = [w.strip() for w in dict_file]
+        words = [w.strip().upper() for w in dict_file]
         dict_file.close()
         return words
 
@@ -33,7 +33,7 @@ class Boggle():
         """Check if a word is a valid word in the dictionary and/or the boggle board"""
 
         word_exists = word in self.words
-        valid_word = self.find(board, word.upper())
+        valid_word = self.find(board, word)
 
         if word_exists and valid_word:
             result = "ok"

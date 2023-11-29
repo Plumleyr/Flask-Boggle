@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %} Start Game {% endblock %}
 {% block content %}
-    <form action="/boggle">
+    <form id="start_game" action="/boggle" method="post">
         <h1>Ready to Boggle?</h1>
         <button>Boggle!</button>
     </form>

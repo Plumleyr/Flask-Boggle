@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block title %} Boggle {% endblock %}
 {% block content %}
+<p class="timer"></p>
+<h2 class="highScore">High Score : {{session['high_score']}}</h2>
+<h3 class="timesPlayed">Played : {{session['games_played']}}</h3>
 <table>
     {% set letter_counts = {} %}
     {% for row in session['board'] %}
@@ -18,10 +21,15 @@
     </tr>
     {% endfor %}
 </table>
-<form id="boggle_board" method="post">
+<form id="boggle_board">
     <input type="text" id="word_input" placeholder="Enter Word">
     <button id="Submit_word">Submit</button>
 </form>
+<p class="msg"></p>
+<p class="score"></p>
+<ul class="words-guessed">
+
+</ul>
 <script
   src="https://code.jquery.com/jquery-3.7.1.js"
   integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
