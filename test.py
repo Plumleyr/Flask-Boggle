@@ -13,6 +13,7 @@ class FlaskTests(TestCase):
 
         self.client = app.test_client()
         app.config['TESTING'] = True
+        
 
     def test_start_game(self):
         with self.client as client:
@@ -35,10 +36,9 @@ class FlaskTests(TestCase):
                                  ['K', 'L', 'M', 'N', 'O'],
                                  ['P', 'Q', 'R', 'S', 'T'],
                                  ['U', 'V', 'W', 'X', 'Y']]
-                response = self.client.post('/check_word', json={
-                    'word':'DIM'
-                })
-                self.assertEqual(response.json['result'], 'ok')
+                session['guessed_words'] = []
+        response = self.client.post('/check_word', json={'word':'DIM'})
+        self.assertEqual(response.json['result'], 'ok')
     
     def test_start_timer(self):
         with self.client as client:
@@ -52,9 +52,9 @@ class FlaskTests(TestCase):
             with client.session_transaction() as session:
                 session['high_score'] = 3
                 session['games_played'] = 0
-                response = self.client.post('/game_finished', json={
-                    'score': 12
-                })
-                self.assertEqual(session['high_score'], 12)
-                self.assertEqual(session['games_played'], 1)
+            response = self.client.post('/game_finished', json={'score' : 12 })
+        self.assertEqual(response.json['score'], 12)
+        with client.session_transaction() as session:
+            self.assertEqual(session['high_score'], 12)
+            self.assertEqual(session['games_played'], 1)
 
